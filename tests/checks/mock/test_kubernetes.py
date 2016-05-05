@@ -202,7 +202,6 @@ class TestKubernetes(AgentCheckTest):
             ([u'kube_namespace:kube-system', u'container_name:k8s_POD.6059dfa2_kube-proxy-gke-cluster-remi-62c0dd29-node-29lx_kube-system_f70c43857a22d5495bf204918d5ab984_e17ace7a', u'pod_name:kube-proxy-gke-cluster-remi-62c0dd29-node-29lx', u'kube_replication_controller:kube-proxy-gke-cluster-remi-62c0dd29-node'], [MEM, CPU, FS, NET, NET_ERRORS]),
             ([u'kube_k8s-app:kube-dns', u'kube_namespace:kube-system', u'kube_kubernetes.io/cluster-service:true', u'container_name:k8s_healthz.4039147e_kube-dns-v11-63tae_kube-system_5754714c-0054-11e6-9a89-42010af00098_d8e1d132', u'kube_replication_controller:kube-dns-v11', u'pod_name:kube-dns-v11-63tae', u'kube_version:v11'], [MEM, CPU, FS, NET]),
             ([u'kube_namespace:kube-system', u'pod_name:fluentd-cloud-logging-gke-cluster-remi-62c0dd29-node-29lx', u'kube_k8s-app:fluentd-logging', u'container_name:k8s_POD.6059dfa2_fluentd-cloud-logging-gke-cluster-remi-62c0dd29-node-29lx_kube-system_da7e41ef0372c29c65a24b417b5dd69f_b4d7ed62', u'kube_replication_controller:fluentd-cloud-logging-gke-cluster-remi-62c0dd29-node'], [MEM, CPU, FS, NET, NET_ERRORS]),
-            ([u'kube_k8s-app:kube-dns', u'kube_namespace:kube-system', u'container_name:k8s_skydns.7ad23ad1_kube-dns-v11-63tae_kube-system_5754714c-0054-11e6-9a89-42010af00098_b082387b', u'kube_kubernetes.io/cluster-service:true', u'kube_replication_controller:kube-dns-v11', u'pod_name:kube-dns-v11-63tae', u'kube_version:v11'], [MEM, CPU, FS, NET]),
             #####
 
             (['kube_replication_controller:kube-dns-v11'], [PODS]),
@@ -252,7 +251,7 @@ class TestKubernetes(AgentCheckTest):
         }
 
         # parts of the json returned by the kubelet api is escaped, keep it untouched
-        with mock.patch('utils.kubeutil.KubeUtil.retrieve_pods_list', side_effect=lambda: json.loads(Fixtures.read_file("pods_list_1.1.json", string_escape=False))):
+        with mock.patch('utils.kubeutil.KubeUtil.retrieve_pods_list', side_effect=lambda: json.loads(Fixtures.read_file("pods_list_1.2.json", string_escape=False))):
                 # Can't use run_check_twice due to specific metrics
                 self.run_check_twice(config, mocks=mocks, force_reload=True)
 
@@ -281,12 +280,14 @@ class TestKubernetes(AgentCheckTest):
             key = tuple(set(sorted(m[3]['tags'])))
             d[key].append(m[0])
 
+        """
         for k,v in d.iteritems():
             print "################"
             print k
             print v
 
         import pdb; pdb.set_trace()
+        """
 
         for m, _type in METRICS:
             for m_suffix in metric_suffix:
