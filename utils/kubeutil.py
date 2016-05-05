@@ -3,6 +3,7 @@
 # Licensed under Simplified BSD License (see LICENSE)
 
 # stdlib
+from collections import defaultdict
 import logging
 import os
 import socket
@@ -67,7 +68,7 @@ class KubeUtil():
         the kubelet API.
         """
         excluded_keys = excluded_keys or []
-        kube_labels = {}
+        kube_labels = defaultdict(list)
         pod_items = pods_list["items"] or []
         for pod in pod_items:
             metadata = pod.get("metadata", {})
@@ -76,11 +77,12 @@ class KubeUtil():
             labels = metadata.get("labels")
             if name and labels and namespace:
                 key = "%s/%s" % (namespace, name)
-                kube_labels[key] = []
+
                 for k,v in labels.iteritems():
                     if k in excluded_keys:
                         continue
-                    kube_labels[key].append("kube_%s:%s" % (k, v) for k, v in labels.iteritems())
+
+                    kube_labels[key].append(u"kube_%s:%s" % (k, v))
 
         return kube_labels
 
