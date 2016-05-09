@@ -66,6 +66,8 @@ init_config:
           - MemtableLiveDataSize
           - MemtableSwitchCount
           - MinRowSize
+          - ReadLatency
+          - WriteLatency
       exclude:
         keyspace:
           - OpsCenter
