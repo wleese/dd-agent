@@ -79,12 +79,17 @@ if sys.platform == 'win32':
         'pyVmomi.*',
         'paramiko',
         'Crypto',
-        'winrandom',
+        # bolcom changes
+        #-'winrandom',
         'uptime',
         'pythoncom',
         'dns.resolver',
         'dns.rdtypes.ANY.*',
         'dns.rdtypes.IN.*',
+
+        # bolcom changes
+        'PyQt4.*',
+        'spyderlib',
 
         # agent
         'checks.network_checks',
@@ -118,7 +123,7 @@ if sys.platform == 'win32':
                 'compressed': True,
                 'bundle_files': 3,
                 'excludes': ['numpy'],
-                'dll_excludes': ["IPHLPAPI.DLL", "NSI.dll",  "WINNSI.DLL",  "WTSAPI32.dll"],
+                'dll_excludes': ["IPHLPAPI.DLL", "NSI.dll",  "WINNSI.DLL",  "WTSAPI32.dll", "MSVCP90.dll"],
                 'ascii':False,
             },
         },

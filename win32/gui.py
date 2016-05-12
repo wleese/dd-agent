@@ -33,7 +33,9 @@ from guidata.qt.QtCore import (
     QSize,
     Qt,
     QTimer,
-    SIGNAL,
+    # bolcom changes
+    #-SIGNAL,
+    Signal,
 )
 from guidata.qt.QtGui import (
     QApplication,
@@ -53,6 +55,9 @@ from guidata.qt.QtGui import (
     QWidget,
 )
 from guidata.qthelpers import get_std_icon
+
+# bolcom changes
+from PyQt4.QtCore import SIGNAL
 
 # small hack to avoid having to patch the spyderlib library
 # Needed because of py2exe bundling not being able to access
@@ -843,9 +848,10 @@ def kill_old_process():
 
 
 if __name__ == '__main__':
-    if Platform.is_windows():
-        # Let's kill any other running instance of our GUI/SystemTray before starting a new one.
-        kill_old_process()
+    # bolcom changes: this function fails with 'Access is Denied'
+    #-if Platform.is_windows():
+    #-    # Let's kill any other running instance of our GUI/SystemTray before starting a new one.
+    #-    kill_old_process()
 
     app = QApplication([])
     if Platform.is_mac():
